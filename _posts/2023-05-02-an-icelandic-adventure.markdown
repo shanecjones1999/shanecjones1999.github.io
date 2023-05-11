@@ -10,14 +10,14 @@ Left to right: Bethany, Susannah, Sumi, Shane
 
 ### Introduction
 
- In late November, 2022, I purchased a plane ticket to go to Iceland for two weeks starting in mid April. This was about a week before my departure for Japan, so it felt a little off to be planning _another_ two week international trip down the line. Also, I hadn't confirmed with my work whether I'd be able to work remotely for two weeks, something I figured I'd do in an attempt to save my PTO after using it all and then some in Japan. Anyways, the tickets were purchased and an Airbnb was booked and now here we are, reminiscing on a great trip.
+ In late November, 2022, I purchased a plane ticket to go to Iceland for two weeks starting in mid April. This was about a week before my departure for Japan, so it felt a little off to be planning _another_ two week international trip down the line. Furthmore, I hadn't confirmed with my work whether I'd be able to work remotely for two weeks, something I figured I'd do in an attempt to save my PTO after using it all and then some in Japan. Anyways, the tickets were purchased and an Airbnb was booked and now here we are, reminiscing on a great trip.
 
  ---
 &nbsp;
 
 ### The Itinerary
 
-The trip lasted from April 15 to April 30. While we made sure to leave lots of room for spontaneous activities, I'll leave a brief summary of the trip's agenda below.
+The trip lasted from April 15 to April 30. Below is brief overview of the trip's agenda.
 
 [**Day 1:** Arrive in Keflavík](#day-1-arrive-in-keflavík)
 
@@ -44,13 +44,13 @@ The trip lasted from April 15 to April 30. While we made sure to leave lots of r
 
 ### **Day 1:** Arrive in Keflavík
 
-Our plane landed at roughly 6:30 am after a 6 hour flight. I'd be shocked to hear I got _any_ sleep, but thankfully I wasn't too cranky in the morning. To kick off the trip, Sumi and I headed straight from the airport in Keflavík to the Blue Lagoon, a geothermal spa famous for its milky blue, mineral-rich waters. Starting off with this was definitely the right move; it was relaxing but at the same time spurred excitement for the rest of the trip.
+Our plane landed at roughly 6:30 am after a 6 hour flight. I'd be shocked if I got _any_ sleep, but thankfully I wasn't too cranky in the morning. To kick off the trip, Sumi and I headed straight from the airport in Keflavík to the Blue Lagoon, a geothermal spa famous for its milky blue, mineral-rich waters. Starting off with this was definitely the right move; it was relaxing but at the same time spurred excitement for the rest of the trip.
 
 ![Blue Lagoon](/images/iceland_bluelagoon1.jpeg)
 ![Blue Lagoon](/images/iceland_bluelagoon2.jpeg)
 ![Blue Lagoon](/images/iceland_bluelagoon3.jpeg)
 
-After visiting the Blue Lagoon, we took a bus to Reykjavík where our Airbnb host picked us up. Shortly after, we met up with our friend, Bethany, and we walked into the city for a meal. We were asleep by 9:00 pm.
+After visiting the Blue Lagoon, we took a bus to Reykjavík where our Airbnb host picked us up. Shortly after, we met up with our friend, Bethany, and we walked into the city for a meal. We were asleep by 9:00 pm that night.
 
 ### **Day 2:** Golden Circle Tour
 
