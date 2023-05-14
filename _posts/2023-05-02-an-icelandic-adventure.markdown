@@ -100,8 +100,6 @@ The best part of the trip! For the middle weekend, we planned a camping trip alo
 ![Iceland](/images/iceland_splash.jpeg)
 ![Iceland](/images/iceland_riverhike1.jpeg)
 ![Iceland](/images/iceland_riverhike2.jpeg)
-![Iceland](/images/iceland_riverhike3.jpeg)
-Crazy warm water we were able to swim in!
 ![Iceland](/images/iceland_riverhike4.jpeg)
 ![Iceland](/images/iceland_waterfallhike1.jpeg)
 ![Iceland](/images/iceland_waterfallhike2.jpeg)
