@@ -125,10 +125,8 @@ We got snowed on the second night (much better than rain on the first night!)
 ![Iceland](/images/iceland_camphike2.jpeg)
 ![Iceland](/images/iceland_camphike3.jpeg)
 ![Iceland](/images/iceland_camphike4.jpeg)
-![Iceland beach](/images/iceland_beach1.jpeg)
 ![Iceland beach](/images/iceland_beach2.jpeg)
 ![Iceland](/images/iceland_lake.jpeg)
-![Iceland](/images/iceland_lake2.jpeg)
 ![Iceland](/images/iceland_rockarch.jpeg)
 
 Safe to say we all slept well after returning from our excursion.
