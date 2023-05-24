@@ -47,7 +47,6 @@ The trip lasted from April 15 to April 30. Below is brief overview of the trip's
 Our plane landed at roughly 6:30 am after a 6 hour flight. I'd be shocked if I got _any_ sleep, but thankfully I wasn't too cranky in the morning. To kick off the trip, Sumi and I headed straight from the airport in Keflavík to the Blue Lagoon, a geothermal spa famous for its milky blue, mineral-rich waters. Starting off with this was definitely the right move; it was relaxing but at the same time spurred excitement for the rest of the trip.
 
 ![Blue Lagoon](/images/iceland_bluelagoon1.jpeg)
-![Blue Lagoon](/images/iceland_bluelagoon2.jpeg)
 ![Blue Lagoon](/images/iceland_bluelagoon3.jpeg)
 
 After visiting the Blue Lagoon, we took a bus to Reykjavík where our Airbnb host picked us up. Shortly after, we met up with our friend, Bethany, and we walked into the city for a meal. We were asleep by 9:00 pm that night.
