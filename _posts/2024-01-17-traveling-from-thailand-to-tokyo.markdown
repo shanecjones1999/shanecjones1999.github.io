@@ -13,6 +13,9 @@ On the 8th, we flew from Krabi to Bangkok to Tokyo, Japan. While in Japan, I spe
 
 I would highly recommend traveling to both of these countries. You can find more specific trip details in the itinerary section below.
 
+---
+&nbsp;
+
 ### Day By Day Itinerary
 
 #### Day -2 (12/28/23): Travel to New York
@@ -120,6 +123,11 @@ I would highly recommend traveling to both of these countries. You can find more
 
 #### Day 5: Fly to Krabi
 
+- Go on a run in the morning through a park and Chiang Mai University
+- Grab a small breakfast of meat skewers and sticky rice
+- Meander around for a nail salon
+- Visit a small book store
+- Walk to a coffee shop and play guitar for a little while
 - Arrive to [Venice Krabi Villa Resort](https://www.venicekrabi.com/) just before dinner time
 - Swim in the pool before dinner at the resort
 - Bed
@@ -218,15 +226,21 @@ I would highly recommend traveling to both of these countries. You can find more
 
 - Visit massive market only open a few times a year
 - Try various salty and sweet snacks
+- Have a ramen lunch
+- Head home to Oyamadai to pack bags and say goodbyes
+
+---
+&nbsp;
 
 ### Post-Trip Takeaways
 
 - Traveling with a group is great, but keep in mind compatibility
   - The foods people eat (or cannot eat), what activites people enjoy, when people prefer to wake up
-- Take time for yourself to recharge when needed
+- Take time for yourself to recharge
 - Take plenty of photos to look back on later
 - Be mindful of flavor fatigue
   - I enjoy eating food from countries outside of the one I am visiting
-  - As an example, we had an Italian dinner in Osaka that was a nice break from the Japanese flavors
+  - As an example, we had an Italian dinner in Osaka that was a great break from the Japanese flavors
 - Get a travel credit card to avoid international fees
-- This is cliché, but try to push your comfort zone
+- Cliché, but try to push your comfort zone at some point in your travels
+- Noise-cancelling headphones for long flights are very nice
