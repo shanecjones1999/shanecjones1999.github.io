@@ -54,7 +54,7 @@ I think this is a fine start and about what I would expect from ChatGPT, but I t
 3. Code must work as expected.
     - No need to explain this one.
 4. No rules to intentionally hinder the performance of the code.
-    - No rules like "Have some syncronous operation that waits for 5 years."
+    - No rules like "Have some operation that waits for 5 years."
 
 ## The Worst Style Guide Possible
 
@@ -111,7 +111,8 @@ The application should support the following functionality:
 
 1. Bank account creation an deletion.
 2. Adding and withdrawing money from an account.
-3. Checking the current balance in an account.
+  - Withdrawling an amount more than the current balance should result in an exception being thrown.
+4. Checking the current balance in an account.
 
 ---
 &nbsp;
