@@ -139,7 +139,8 @@ I would highly recommend traveling to both of these countries. You can find more
 - Buy fake sunscreen
 - Get to more quiet beach
 - Throw frisbee, get little stings
-- Throw with Russians
+- Throw frisbee with some Russians
+  - Nearly hit people many times
 - Cross the water to island
 - Leave beach
 - Get nails done
