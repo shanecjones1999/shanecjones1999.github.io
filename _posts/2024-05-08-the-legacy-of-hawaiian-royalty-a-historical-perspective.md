@@ -43,8 +43,10 @@ The trip originally materialized in the Rally discord when Noah Newburger reache
 - Afternoon hike along some ridge
 - Threw a disc briefly
 - Another dinner spot
+- Hang with Tom's friends and roommates
 - Picked up by Jimmy Clarkė and Noah Newburger
 - Meet Jen and Dewey
+- Thai shrimp dinner
 - Head to bed
 
 ### Day 4: Pro surf and free acaį (Tuesday 2/20)
@@ -57,27 +59,39 @@ The trip originally materialized in the Rally discord when Noah Newburger reache
 - Head to beach to swim after breakmark
 - Go to spot for lunch
 - Head back home
+- Pulled pork dinner
 
 ### Day 5: Surf day (Wednesday 2/21)
 
-- Surf
+- Surfing
+- I got up on my first wave, though I think I had the easiest board
+- Fried chicken lunch with taiyaki desert (custard is the best)
 - Cards
+- Some great dinner I am blanking on presently
 
-### Day 6: X (Thursday 2/22)
+### Day 6: Surf day (Pt 2) (Thursday 2/22)
 
-- Snorkel on west side beach
-- Grocery store lunch
-- University of Honolulu vs Missouri volleyball game
-
-### Day 7: Y (Friday 2/23)
-
-- Surf pt 2
+- Surfing part 2
+- Noah and Jimmy spotted a sea turtle
 - Curry udon lunch
-- Donqiote
+- Meet up with Tom for dinner at Golden Pork Ramen
+- Head over to catch the University of Honolulu vs Missouri volleyball game
 
-### Day 8: Z (Saturday 2/24)
+### Day 7: Snorkel day (Friday 2/23)
 
-- Yoga
-- Curry fried pork rice bowl
+- Grocery store lunch
+- Snorkel on west side beach
+- Saw a ton of sea urchin, a good number of fish, and one sea turtle
+- Don Quijote excursion for gifts
+- Big poker night ended with my pocket kings beating Jimmy's pocket aces (I had three of a kind)
+
+### Day 8: Last day (Saturday 2/24)
+
+- Morning hot yoga class with Jen and Gabi
+- Curry and tonkatsu over rice bowl for lunch
 - Chow dein dinner
 - Noah and Jimmy drive me to the airport
+
+## Post trip synopsis
+
+Hawaii was a blast and I hope to return. Jimmy and I put together a small Trader Joe's care package for Jen and Dewey which was greatly appreciated. Need to go back for the Pearl Harbor museum.
