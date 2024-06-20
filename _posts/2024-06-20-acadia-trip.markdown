@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "Acadia Trip"
+date:   2024-06-20 09:00:05 -0400
+categories: jekyll update
+---
+
+
 # Acadia Trip
 
 ## Page in progress
