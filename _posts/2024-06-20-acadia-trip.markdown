@@ -5,14 +5,10 @@ date:   2024-06-20 09:00:05 -0400
 categories: jekyll update
 ---
 
-
-# Acadia Trip
-
-## Page in progress
-
 This page outlines the itinerary for my Acadia trip from June 9-13.
 
 ### Day 1 (Sunday)
+
 - Tandem coffee breakfast sandwich and a coffee
 - Drive to Bar Harbor from Portland
 - Explore shops
@@ -25,6 +21,7 @@ This page outlines the itinerary for my Acadia trip from June 9-13.
 - Bed
 
 ### Day 2 Monday
+
 - Breakfast
 - Drive 1 hr for Puffin tour
 - Hollingsworth trail
@@ -36,6 +33,7 @@ This page outlines the itinerary for my Acadia trip from June 9-13.
 - Bed
 
 ### Day 3 Tuesday
+
 - 3:45am wake up
 - Drive to Mt Cadillac for sunrise
 - Drive to Jordan Pond House for hike
@@ -50,6 +48,7 @@ This page outlines the itinerary for my Acadia trip from June 9-13.
 - Back to Airbnb for bed
 
 ### Day 4 Wednesday
+
 - Wake up for Mt Cadillac hike
 - Back to Portland
 - Stop for coffee and cookie
