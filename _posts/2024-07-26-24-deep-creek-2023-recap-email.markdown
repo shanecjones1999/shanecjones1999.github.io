@@ -1,8 +1,12 @@
 ---
 layout: post
-title:  "Deep Creek 2023 Recap Email
+title:  "Deep Creek 2023 Recap Email"
 date:   2024-07-26 12:47:00 -0400
 categories: jekyll update
+---
+
+Below is the email I sent out to my family on August 29, 2023 following a weekend in Deep Creek that took place from July 21-23.
+
 ---
 
 Dear Family, 
