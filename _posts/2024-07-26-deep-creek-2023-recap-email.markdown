@@ -14,13 +14,15 @@ Dear Family,
 
 I hope this email finds all of you in good health and high spirits. I wanted to take a moment to share with you the wonderful weekend we had at Deep Creek Lake celebrating a beloved family tradition.
 
-Please enjoy a brief photo album from the trip here: <https://photos.app.goo.gl/CJ76ZXtuz2qM1HaBA>
+Please enjoy a brief photo album from the trip here: <https://photos.app.goo.gl/CJ76ZXtuz2qM1HaBA>\
+&nbsp;
 
 #### My favorite moments of the trip
 
 1. Observing Mitch's maritime mastery when he parked his boat next to ours at Cherry Creek.
 2. Cooking a pasta dinner with all of the cousins Sunday night.
-3. Enjoying the barbecue dinner on the deck prepared by Aunt Kerry, Uncle Chris, Aunt Diane, and Uncle Scott Saturday night.
+3. Enjoying the barbecue dinner on the deck prepared by Aunt Kerry, Uncle Chris, Aunt Diane, and Uncle Scott Saturday night.\
+&nbsp;
 
 #### Weekend winners
 
@@ -39,7 +41,8 @@ Fastest 5 mile run of the trip: Shane\
 Best cornhole duo of the trip: Jake and Tommy\
 MVP of the trip: Mitch\
 Song of the trip: Blossom by Coletta\
-Slacker intern of the trip: Matt Heeter
+Slacker intern of the trip: Matt Heeter\
+&nbsp;
 
 #### A concluding remark
 
@@ -48,7 +51,8 @@ Looking back at the summer of '23, Deep Creek weekend was undoubtedly my highlig
 One more thing! I am missing quite a few emails, notably on the Lundy side, but also Marjorie on the Jones side. If you feel inspired, you can forward this to them. Thank you.
 
 Most sincerely,\
-Shane
+Shane\
+&nbsp;
 
 #### Parting note
 
