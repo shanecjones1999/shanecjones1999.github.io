@@ -1,0 +1,8 @@
+---
+layout: post
+title:  "Poconos"
+date:   2024-07-26 12:47:00 -0400
+categories: jekyll update
+---
+
+**People:** Gillie, Becky, Richelle, Sam, Keshav, Sumi, Adora, Shane
