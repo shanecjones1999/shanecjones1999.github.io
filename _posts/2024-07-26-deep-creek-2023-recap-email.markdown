@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Deep Creek 2023 Recap Email"
-date:   2024-07-26 12:47:00 -0400
+date:   2024-07-26 13:24:00 -0400
 categories: jekyll update
 ---
 
