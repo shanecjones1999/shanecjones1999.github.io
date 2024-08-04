@@ -11,7 +11,7 @@ I was fortunate enough to travel to Hawaii from February 17-24. Before the trip,
 
 The trip originally materialized in the Rally discord when Noah Newburger reached out about Kaimana Klassik, a casual frisbee tournament in Hawaii, in late 2023. I did not immediately make a firm commitment to go, but I was interested so I reacted to the message. Before I knew it, I found myself booking flights and preparing for the week long trip.
 
-## Itinerinary
+## Itinerary
 
 ### Day 1: Travel to Hawaii (Saturday 2/17)
 
