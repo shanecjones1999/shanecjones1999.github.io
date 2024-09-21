@@ -33,4 +33,5 @@ While this trip occurred in December 2022, actually writing this post has escape
 - Wake up early for Yoshi's bike tour!
 - Yoshi shows us around Tokyo, including some popular shopping streets, historical sites, shrines, and the Imperial Palace!
 - Lunch? TBD
-- Head to Kaurizawa?
+- Head to Kaurizawa
+- Catch Japan
