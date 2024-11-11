@@ -26,3 +26,8 @@ categories: jekyll update
 - Go through rubble and abandoned structures
 - Head over to small brunch spot
 - Purchase cinnamon pear jam in a "buy 2 get 1 free" deal
+
+### Trip takeaways
+
+- Be adventurous and try new things when you travel
+- Paw paws are great

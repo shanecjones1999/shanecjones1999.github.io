@@ -26,6 +26,8 @@ Berkley
 <p style="margin-top: -15px;"><i>Wednesday, September 4</i></p>
 
 - Wake up to lead a low level design review
+- Plant and book shops!
+- Burrito lunch!
 - Mountain biking!
 - Attempt stupid hill climb, be unsuccessful several times
 - Ride with Gillie and Sumi, Sumi falls!
@@ -35,15 +37,21 @@ Berkley
 - Get frozen yogurt
 - Bed!
 
-- Plant shop?
-- Burrito day?
-
 ## Day 2: Off day
 
 <p style="margin-top: -15px;"><i>Thursday, September 5</i></p>
 
-- Day off, drive over to Berkley with Gillie
+- Day off of work
+- Drive over to Berkley with Gillie, quiz day
 - Meet some of Gillie's business school friends
+- Take Bart into San Fran
+- Rent bikes, enjoy a ride near the Gold Gate bridge
+  - Too foggy to see it, sadly
+- Bus around the city
+- Enjoy a ramen lunch
+- See our first [Waymos](https://waymo.com/)!
+- Swing by Gold State park
+- Bart back to Berkley
 - 
 
 ## Day 3: Work day 2
@@ -51,10 +59,11 @@ Berkley
 <p style="margin-top: -15px;"><i>Friday, September 6</i></p>
 
 - P Chill work day as I recall
-- Game night!
 - Oakland night
 - Korean fried chicken
 - Hang out with Alana
+- Game night!
+  - Werewolf
 
 ## Day 5: Weekend
 
