@@ -5,6 +5,8 @@ date:   2024-11-11 18:45:00 -0400
 categories: jekyll update
 ---
 
+People: Shane, Sumi, David, Sami, Katina, Ben, Driver, Taylor, Marika, Emily, Ethan, Maggie, Jake
+
 Day 1: 11/09
 - Wake up at 6:30
 - Arrive at Devils stairs loop at 8:30
