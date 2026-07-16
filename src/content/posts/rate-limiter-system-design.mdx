@@ -1,0 +1,82 @@
+---
+title: "Designing a Distributed Rate Limiting System"
+description: "A high-level system design walkthrough for building a scalable distributed rate limiter."
+pubDatetime: 2026-07-16T20:12:31.158Z
+slug: adding-new-posts-in-astropaper-theme
+featured: true
+tags:
+  - system-design
+  - distributed-systems
+  - redis
+  - scalability
+  - rate-limiter
+---
+
+# Designing a Distributed Rate Limiting System
+
+I want to practice my system design skills and I figured a good way to do that would be to write about system designs. Practice makes perfect, right?
+For this first post I figured I would start off with a class: design a rate limiter. I like this problem because it is very general and is critical 
+for any large scale system handling lots of requests. For system designs, I follow [HelloInterview's 6-step framework](https://www.hellointerview.com/learn/system-design/in-a-hurry/delivery).
+
+## Problem Statement
+
+A company runs a high-traffic system with lots of users making lots of requests. As the company scales, they want to protect their backend from excessive requests. A rate limiter is a natural solution.
+
+### Functional Requirements
+
+Design a system that allows us to limit how many requests a client can make within a given time window.
+
+The system should:
+
+- Track request counts per client
+- Allow or reject requests based on configured limits
+- Support multiple rate limiting policies
+- Allow administrators to update rate limit rules
+- Return useful metadata to clients
+
+Example response:
+
+```http
+HTTP/1.1 429 Too Many Requests
+
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 60
+```
+
+### Non-functional Requirements
+
+- Availability over consistency (CAP theorem)
+- Handle 500K req/sec
+- < 10ms latency for request rate limit checks
+
+### Core Entities
+
+In this design, there are only a few key entities we care about:
+
+- Request
+- User (user ID, API token, IP address)
+- Rate limit rules (premium users have 300 req/min)
+
+For now, we will assume we are rate limiting on user ID.
+
+### Interface
+
+Given a request, we want to determine whether or not it should be rate-limited:
+
+- `bool isRequestValid(userId)`: returns `true` if the request should go through, `false` if it should be rate-limited
+
+### Data Flow
+
+Real simple in this case: a client makes a call to one of our APIs and we need to return something.
+
+### High-level Design
+
+
+```mermaid
+flowchart LR
+    Client[Client] --> Gateway[API Gateway]
+    Gateway --> RateLimiter[Rate Limiter Service]
+    RateLimiter --> Redis[(Redis)]
+    RateLimiter --> Gateway
+    Gateway --> Services[Backend Services]
