@@ -34,7 +34,7 @@ const rssHref = getRelativeLocaleUrl(
 <html
   dir={site.dir ?? "ltr"}
   lang={Astro.currentLocale ?? site.lang}
-  class="overflow-y-scroll scroll-smooth"
+  class:list={["overflow-y-scroll", { "scroll-smooth": !import.meta.env.DEV }]}
 >
   <head>
     <meta charset="UTF-8" />

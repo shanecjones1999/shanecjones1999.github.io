@@ -62,9 +62,9 @@ For now, we will assume we are rate limiting on user ID.
 
 ### Interface
 
-Given a request, we want to determine whether or not it should be rate-limited:
+Given a request, we want to determine whether or not it should be rate limited:
 
-- `bool isRequestValid(userId)`: returns `true` if the request should go through, `false` if it should be rate-limited
+- `bool isRequestValid(userId)`: returns `true` if the request should go through, `false` if it should be rate limited
 
 ### Data Flow
 
@@ -72,11 +72,34 @@ Real simple in this case: a client makes a call to one of our APIs and we need t
 
 ### High-level Design
 
+The diagram below outlines the rate limiter system design:
 
-```mermaid
-flowchart LR
-    Client[Client] --> Gateway[API Gateway]
-    Gateway --> RateLimiter[Rate Limiter Service]
-    RateLimiter --> Redis[(Redis)]
-    RateLimiter --> Gateway
-    Gateway --> Services[Backend Services]
+![High-level diagram of the distributed rate limiter system](../../assets/rate-limiter-system-design.svg)
+
+[Link to Excalidraw](https://excalidraw.com/#json=NpIv2DfUsNg6Oh1KZ8wQH,1JhOyyH1oj2p5BOPGhB_NQ)
+
+#### Deliberate Decisions
+
+In this design, I want to mention a number of _deliberate_ design choices. First is where rate limiting is handled. By placing the rate limiting logic in the API gateway, we avoid any latency that might be added by calling a dedicated rate limit service. 
+The main source of latency we have is a call to a Redis shard which we can mitigate by [pooling connections](https://en.wikipedia.org/wiki/Connection_pool). This architecture also allows for simple tracking of requests by user across our whole system. If the solution 
+was to have each service manage its own rate limits, each service would be unaware of requests made to other services from the same user.
+
+Second is how rules are designed. In this system, rules can be updated on the fly with no disruption. This works by adding a rule configuration service which publishes rules which are then pushed to the API Gateway. The API Gateway can manage its own rule cache for quick access.
+
+
+#### Rate Limiting Algorithms
+
+There are a number of algorithms used for rate limiting but here I'll just outline 3:
+
+1. Fixed Window
+
+Bucket incoming requests into distinct intervals. If the interval request count exceeds the request limit, reject the request. Each time the interval increments, it resets.
+
+2. Sliding Window
+
+This strategy is similar to the fixed window strategy, except the interval is dynamic, so earlier requests eventually exit the window and allow for additional requests to be made.
+
+3. Token Refill
+
+Each user has a pool of tokens which has a set maximum capacity and is always refilling at a set fixed rate (but will never exceed capacity). As the user makes requests, tokens are removed from their pool. If the user has 
+no remaining tokens, reject the request.
