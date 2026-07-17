@@ -1,5 +1,5 @@
 ---
-title: "Designing a Distributed Rate Limiting System"
+title: "Designing a Rate Limiter"
 description: "A high-level system design walkthrough for building a scalable distributed rate limiter."
 pubDatetime: 2026-07-16T20:12:31.158Z
 slug: rate-limiter-system-design
@@ -46,9 +46,9 @@ X-RateLimit-Reset: 60
 
 ### Non-functional Requirements
 
-- Availability over consistency (CAP theorem)
-- Handle 500K req/sec
 - < 10ms latency for request rate limit checks
+- Handle 500K req/sec
+- Availability over consistency (CAP theorem)
 
 ### Core Entities
 
@@ -86,7 +86,6 @@ was to have each service manage its own rate limits, each service would be unawa
 
 Second is how rules are designed. In this system, rules can be updated on the fly with no disruption. This works by adding a rule configuration service which publishes rules which are then pushed to the API Gateway. The API Gateway can manage its own rule cache for quick access.
 
-
 #### Rate Limiting Algorithms
 
 There are a number of algorithms used for rate limiting but here I'll just outline 3:
@@ -103,3 +102,26 @@ This strategy is similar to the fixed window strategy, except the interval is dy
 
 Each user has a pool of tokens which has a set maximum capacity and is always refilling at a set fixed rate (but will never exceed capacity). As the user makes requests, tokens are removed from their pool. If the user has 
 no remaining tokens, reject the request.
+
+### Deep Dives
+
+As a reminder, here are the non-functional requirements set for this system:
+
+- < 10ms latency for request rate limit checks
+- Handle 500K req/sec
+- Availability over consistency (CAP theorem)
+
+I will address these non-functional requirements
+
+**< 10ms latency for request rate limit checks**
+
+For low latency, there are a couple of things to note. First of all, our system should not have to make any expensive requests to a database or any other API. We can encode the user ID in the request's JWT, pool Redis connections, and lightning fast rate limiting algorithms. This should make the end-to-end check very fast.
+
+**Handle 500K req/sec**
+
+In order to handle high volume, we can shard Redis instances by user ID. If we have 10 shards, each shard will handle ~50K req/sec which should be manageable. Whichever algorithm is selected to rate limit, it should be extremely efficient and we should well exceed the 500K req/sec requirement.
+
+**Availability over consistency (CAP theorem)**
+
+For availability in our system, there are a few things. In the event the rate limiting mechanism fails entirely, the system should either allow all requests or reject all requests. This should be determined based on the type of application.
+Replication can be used to improve resiliency. In Redis, each primary node (or primary shard, in a sharded Redis Cluster) can have one or more replica nodes. The primary asynchronously replicates writes to its replicas, allowing a replica to be promoted if the primary fails.
