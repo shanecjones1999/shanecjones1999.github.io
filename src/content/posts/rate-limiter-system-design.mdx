@@ -80,11 +80,17 @@ The diagram below outlines the rate limiter system design:
 
 #### Deliberate Decisions
 
-In this design, I want to mention a number of _deliberate_ design choices. First is where rate limiting is handled. By placing the rate limiting logic in the API gateway, we avoid any latency that might be added by calling a dedicated rate limit service. 
-The main source of latency we have is a call to a Redis shard which we can mitigate by [pooling connections](https://en.wikipedia.org/wiki/Connection_pool). This architecture also allows for simple tracking of requests by user across our whole system. If the solution 
-was to have each service manage its own rate limits, each service would be unaware of requests made to other services from the same user.
+In this design, I want to mention a number of _deliberate_ design choices.
 
-Second is how rules are designed. In this system, rules can be updated on the fly with no disruption. This works by adding a rule configuration service which publishes rules which are then pushed to the API Gateway. The API Gateway can manage its own rule cache for quick access.
+**First is where rate limiting is handled.** By placing the rate limiting logic in the API gateway, we avoid any latency from external API calls. An alternative solution might be to have a dedicated rate limit service. However, this would add latency making round-trip requests to determine whether a request should succeed. 
+Another benefit of the rate limiter placement is that the API Gateway is the entry point to our application. This means all requests necessarily funnel through it. As a result, the API Gateway is aware of all requests from all users. This means we can be confident our request counts by user are accurate.
+If, instead, rate limiting was handled by each service individually, there would be no global request count per user. Independent services won't know about requests made to other services, so enforcing a specific rate limit becomes unfeasible.
+
+**Second is the choice of a distributed cache like Redis.** By using a distributed cache like Redis, we can look up the current request usage for a given user ID with an `HMGET` call which we can expect to take < 1 ms. To We can further mitigate latency by [pooling connections](https://en.wikipedia.org/wiki/Connection_pool).
+Connection pooling allows for re-using existing connections so we can avoid repeated TCP handshakes, authentiation, and socket allocation and make calls to Redis even faster.
+
+**Third is how rules are designed.** In this system, rules can be updated on the fly with no disruption using a pub/sub model. This works by adding a rule configuration service which publishes rules which are then pushed to the API Gateway. The API Gateway is subscribed to a rules channel and can manage its own rule cache for quick access. As rules are created, updated, or deleted, the API Gateway
+can monitor these changes in real time. Another solution is periodic polling with a rules database. If the API Gateway polls a database every `N` hours to refresh it's rule set, rules will be out of sync for up to `N` hours. We can make `N` really small and poll every few seconds, but that adds strain on the API Gateway which is already handling 500K req/sec. Rules probably don't change very often, so many of the requests would be wasteful.
 
 #### Rate Limiting Algorithms
 
@@ -115,7 +121,7 @@ I will address these non-functional requirements
 
 **< 10ms latency for request rate limit checks**
 
-For low latency, there are a couple of things to note. First of all, our system should not have to make any expensive requests to a database or any other API. We can encode the user ID in the request's JWT, pool Redis connections, and lightning fast rate limiting algorithms. This should make the end-to-end check very fast.
+For low latency, there are a couple of things to note. First is our choice of using Redis. First of all, our system should not have to make any expensive requests to a database or any other API. We can encode the user ID in the request's JWT which allows us to access it without any additonal information., pool Redis connections, and lightning fast rate limiting algorithms. This should make the end-to-end check very fast.
 
 **Handle 500K req/sec**
 
@@ -125,3 +131,7 @@ In order to handle high volume, we can shard Redis instances by user ID. If we h
 
 For availability in our system, there are a few things. In the event the rate limiting mechanism fails entirely, the system should either allow all requests or reject all requests. This should be determined based on the type of application.
 Replication can be used to improve resiliency. In Redis, each primary node (or primary shard, in a sharded Redis Cluster) can have one or more replica nodes. The primary asynchronously replicates writes to its replicas, allowing a replica to be promoted if the primary fails.
+
+## Wrap Up
+
+Hopefully this 
