@@ -1,0 +1,18 @@
+---
+---
+
+<canvas
+  id="cube"
+  width="560"
+  height="560"
+></canvas>
+
+<script type="module">
+  import { startCubeRotation } from "@/scripts/rotatingCube";
+
+  const cubeCanvas = document.getElementById("cube");
+
+  if (cubeCanvas instanceof HTMLCanvasElement) {
+    startCubeRotation(cubeCanvas);
+  }
+</script>

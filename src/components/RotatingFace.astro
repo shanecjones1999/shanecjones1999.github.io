@@ -1,0 +1,19 @@
+---
+---
+
+<canvas
+  id="face"
+  width="400"
+  height="400"
+></canvas>
+
+<script type="module">
+  import { startFaceRotation } from "@/scripts/rotatingFace";
+
+  const faceCanvas = document.getElementById("face");
+
+  if (faceCanvas instanceof HTMLCanvasElement) {
+    startFaceRotation(faceCanvas);
+  }
+
+</script>

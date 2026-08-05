@@ -1,0 +1,19 @@
+---
+---
+
+<canvas
+  id="torus"
+  width="560"
+  height="560"
+></canvas>
+
+<script type="module">
+  import { startTorusRotation } from "@/scripts/rotatingTorus";
+
+  const torusCanvas = document.getElementById("torus");
+
+  if (torusCanvas instanceof HTMLCanvasElement) {
+    startTorusRotation(torusCanvas);
+  }
+
+</script>

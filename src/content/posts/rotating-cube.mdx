@@ -1,0 +1,154 @@
+---
+title: "Rotating Cube"
+description: "Small coding project to animate a rotating cube."
+pubDatetime: 2026-07-29T19:39:13.530Z
+modDatetime: 2026-07-29T19:39:13.530Z
+slug: rotating-cube
+featured: true
+tags:
+  - math
+  - geometry
+---
+
+import RotatingCube from "../../components/RotatingCube.astro";
+import RotatingFace from "../../components/RotatingFace.astro";
+import RotatingTorus from "../../components/RotatingTorus.astro";
+
+# Coding a Rotating Cube
+
+Wanting to do a small project involving some math, I decided to try coding a rotating cube animation. I had seen a few videos and articles explaining how it works, and I wanted to implement it myself.
+All of the code is written in `TypeScript`. For rendering the animation, I am using a `<canvas>` HTML element, but you can also use a terminal.
+
+## The Approach
+
+Before trying to get a whole cube rendered, I first focused on creating single face of the cube. We can represent a face of a cube as a 2D array of `(x, y, z)` points, where we set `z` to be `0`:
+
+```typescript
+const SIZE = 20;
+
+interface Point3D {
+    x: number;
+    y: number;
+    z: number;
+}
+
+function createFace(): Point3D[] {
+    const points: Point3D[] = [];
+
+    for (let y = -SIZE / 2; y < SIZE / 2; y++) {
+        for (let x = -SIZE / 2; x < SIZE / 2; x++) {
+            points.push({ x, y, z: 0 });
+        }
+    }
+
+    return points;
+}
+```
+
+This creates a face of our cube that is `SIZE ⋅ SIZE`. Next, we can apply a rotation to each point of the face. 
+Here is the transformation we can apply to rotate a point `(x, y, z)` by angle `θ`:
+
+```
+x' = x cos θ + z sin θ
+y' = y
+z' = -x sin θ + z cos θ
+```
+
+In code, this looks like:
+
+```typescript
+function rotateY(point: Point3D, angle: number): Point3D {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+
+    return {
+        x: point.x * cos + point.z * sin,
+        y: point.y,
+        z: -point.x * sin + point.z * cos,
+    };
+}
+```
+
+The last step is projection. We have a bunch of 3D points which we want to display on a 2D screen.
+We can use our `z` index to scale the `x` and `y` coordinates based on how close or far they are from the camera.
+
+```typescript
+const CAMERA_DISTANCE = 40;
+
+function project(point: Point3D): Point2D {
+    const factor = CAMERA_DISTANCE / (CAMERA_DISTANCE - point.z);
+
+    return {
+        x: point.x * factor,
+        y: point.y * factor,
+    };
+}
+```
+
+Looking closely at how we calculate `factor`, I'll point out that as `z` values become larger and approach `CAMERA_DISTANCE` (coming towards the camera), the denominator approaches `0`, which means the value of `factor` will be large.
+This means the point will be larger.
+Conversely, as `z` values approach `0` or go negative (farther from the camera), the denominator becomes larger and `factor` decreases, resulting in the point appearing smaller.
+
+Below is the resulting face rotating on the `y` axis.
+
+<RotatingFace />
+
+The above creates our front-facing face, but to complete the cube we still need to add a back face, top and bottom, and left and right sides.
+To do this, we can initialize 5 more faces with points on different axes. We can also rotate along the `x` axis as well. To do this, I've gone ahead and created a
+dedicated `Transformer` class:
+
+```typescript
+class Transformer {
+    static rotateY(point: Point3D, angle: number): Point3D {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+
+        return {
+            x: point.x * cos + point.z * sin,
+            y: point.y,
+            z: -point.x * sin + point.z * cos,
+        };
+    }
+
+    static rotateX(point: Point3D, angle: number): Point3D {
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+
+        return {
+            x: point.x,
+            y: point.y * cos - point.z * sin,
+            z: point.y * sin + point.z * cos,
+        };
+    }
+
+    static project(point: Point3D): Point2D {
+        const factor = CAMERA_DISTANCE / (CAMERA_DISTANCE - point.z);
+
+        return {
+            x: point.x * factor,
+            y: point.y * factor,
+        };
+    }
+}
+```
+
+## The Result
+
+After a bit of tinkering around, here is the end result:
+
+<RotatingCube />
+
+I think it turned out ok! I also tried to create a rotating torus as well following similar steps to building the cube:
+
+<RotatingTorus />
+
+### Extensions
+
+One thing I'd like to try is rendering different ASCII characters based on each point's depth to enhance the 3D effect. 
+Characters with greater visual density could represent points closer to the camera, while lighter characters could represent points farther away. I think this would create a more convincing sense of depth than rendering every point as a period.
+
+#### Inspiration
+
+- https://www.youtube.com/watch?v=p09i_hoFdd0
+- https://www.a1k0n.net/2011/07/20/donut-math.html
+- https://www.a1k0n.net/js/donut.js
