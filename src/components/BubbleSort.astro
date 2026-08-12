@@ -1,0 +1,20 @@
+---
+---
+
+<canvas
+  id="bubbleSort"
+  width="600"
+  height="400"
+></canvas>
+
+<script type="module">
+  import { renderBubbleSortAnimation } from "@/scripts/bubbleSort";
+  import { generateRandomArray } from "@/scripts/generateRandomArray";
+  const canvas = document.getElementById("bubbleSort");
+
+  if (canvas instanceof HTMLCanvasElement) {
+    const array = generateRandomArray(100, 1, 100);
+
+    renderBubbleSortAnimation(canvas, array);
+  }
+</script>

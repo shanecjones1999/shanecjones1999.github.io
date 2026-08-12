@@ -1,0 +1,20 @@
+---
+---
+
+<canvas
+  id="quickSort"
+  width="600"
+  height="400"
+></canvas>
+
+<script type="module">
+  import { renderQuickSortAnimation } from "@/scripts/quickSort";
+  import { generateRandomArray } from "@/scripts/generateRandomArray";
+  const canvas = document.getElementById("quickSort");
+
+  if (canvas instanceof HTMLCanvasElement) {
+    const array = generateRandomArray(100, 1, 100);
+
+    renderQuickSortAnimation(canvas, array);
+  }
+</script>
