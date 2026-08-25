@@ -1,0 +1,31 @@
+---
+title: "Implementing a Rate Limiter"
+description: "Using a previous design post to actually implement a rate limiter."
+pubDatetime: 2026-08-30T00:19:18.808Z
+slug: implementing-a-rate-limiter
+featured: true
+tags:
+  - system-design
+  - distributed-systems
+  - redis
+  - scalability
+  - rate-limiter
+---
+
+# Implementing a Rate Limiter
+
+
+
+I have a write up on how I'd approach [designing a rate limiter](https://shanecjones1999.github.io/posts/rate-limiter-system-design/) which I decided 
+to implement using AI. I figured the system design would hopefully be clear enough that an agent would be highly effective on the implemention side, and that assumption turned out to be right.
+
+I was able to load test the rate limiter using [Grafana k6](https://grafana.com/docs/k6/latest/). Side note: see [differences between load and stress testing](https://www.blazemeter.com/blog/performance-testing-vs-load-testing-vs-stress-testing).
+
+## Code
+
+Here is a link to the [repository](https://github.com/shanecjones1999/rate-limiter).
+
+## Takeaways
+
+The implementation here followed a similar pattern of how I practice agentic development: clarify -> plan -> implement -> test. Generally I am tackling a small feature or bug one at a time whereas here I was building out a whole system, but the pattern
+was similar. I also 
