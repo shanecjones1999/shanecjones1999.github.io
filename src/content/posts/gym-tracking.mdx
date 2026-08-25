@@ -1,11 +1,57 @@
 ---
-title: "Gym Tracking"
+title: "Gym Tracking Overview"
 description: "Reviewing my gym data from the past 4 years."
-pubDatetime: 2026-09-02T00:19:18.808Z
+pubDatetime: 2026-08-25T17:32:47.033Z
 slug: gym-tracking
 featured: true
 tags:
   - health
   - fitness
-  - data analysis
+  - data-analysis
+  - ai
+  - google-sheets
+  - lifting
+  - gym
 ---
+
+import GymTrackingStats from "../../components/GymTrackingStats.astro";
+import GymPrs from "../../components/GymPrs.astro";
+import GymWeeklyFrequency from "../../components/GymWeeklyFrequency.astro";
+import GymE1rmProgress from "../../components/GymE1rmProgress.astro";
+import GymConsistencyHeatmap from "../../components/GymConsistencyHeatmap.astro";
+
+I've been logging lifts in a Google Sheet since July 2024 — push, pull, legs, and the occasional misc day. I had AI help take a look at the data. Here's the high-level picture across every tab (Legs 1–3, Pull 1–3, Push 1–2, and Misc).
+
+<GymTrackingStats />
+
+That's **403** distinct days in the gym over a **767**-day window (**52.5%** of days), or roughly **3.8 sessions per week** on average. Legs show up the most, with pull and push nearly tied, and misc filling in when I wasn't running a clean split.
+
+## Consistency
+
+The average hides a lot of variance. Early on I was in the gym most days; later there are clear stretches of consistency and one long gap in late summer 2025. Making a note that I attribute some gaps to missing entries.
+
+<GymWeeklyFrequency />
+
+<GymConsistencyHeatmap />
+
+## Personal records
+
+Heaviest sets for the big compounds, plus max added weight on pull-ups and dips:
+
+<GymPrs />
+
+## Strength over time
+
+Estimated 1RM from the best set each month for squat, bench, and deadlift, using the [Epley formula](https://en.wikipedia.org/wiki/One-repetition_maximum#Epley_formula):
+
+`e1RM = w × (1 + r / 30)`
+
+where `w` is the weight and `r` is the reps. So a set of 225 × 8 estimates to about 285 lb. It's a rule of thumb, not a measured max — it works best in the ~2–10 rep range and tends to overestimate on high-rep sets. Here it's just a way to compare sets across different rep counts on one scale.
+
+<GymE1rmProgress />
+
+I stopped deadlifting after I found it to be causing some minor back issues. I've also taken squats much lighter as of recent, and haven't been active with benching.
+
+## Coming Up
+
+I plan on writing a more in-depth post about how I approach training now, what my health and fitness goals are, and how I plan on achieving them.

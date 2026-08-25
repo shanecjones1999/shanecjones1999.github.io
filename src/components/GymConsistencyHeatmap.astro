@@ -1,0 +1,218 @@
+---
+import { gymDayCounts, gymChartRange } from "@/data/gymCharts";
+
+function toIso(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+const start = new Date(gymChartRange.start + "T12:00:00");
+const end = new Date(gymChartRange.end + "T12:00:00");
+
+// Align to week start (Monday) before start, week end (Sunday) after end
+const startDay = (start.getDay() + 6) % 7; // Mon=0
+const gridStart = new Date(start);
+gridStart.setDate(gridStart.getDate() - startDay);
+
+const endDay = (end.getDay() + 6) % 7;
+const gridEnd = new Date(end);
+gridEnd.setDate(gridEnd.getDate() + (6 - endDay));
+
+const countByDate = new Map(gymDayCounts.map((d) => [d.date, d.count]));
+
+type Cell = { date: string; count: number; inRange: boolean };
+const cells: Cell[] = [];
+for (let d = new Date(gridStart); d <= gridEnd; d.setDate(d.getDate() + 1)) {
+  const iso = toIso(d);
+  const inRange = d >= start && d <= end;
+  cells.push({
+    date: iso,
+    count: inRange ? (countByDate.get(iso) ?? 0) : -1,
+    inRange,
+  });
+}
+
+const weeks: Cell[][] = [];
+for (let i = 0; i < cells.length; i += 7) {
+  weeks.push(cells.slice(i, i + 7));
+}
+
+const cellSize = 11;
+const gap = 3;
+const labelW = 28;
+const topH = 18;
+const svgW = labelW + weeks.length * (cellSize + gap);
+const svgH = topH + 7 * (cellSize + gap);
+
+function level(count: number) {
+  if (count <= 0) return 0;
+  if (count === 1) return 1;
+  return 2; // 2+ sessions same day
+}
+
+const monthLabels: { x: number; label: string }[] = [];
+let lastYM = "";
+weeks.forEach((week, wi) => {
+  const firstInRange = week.find((c) => c.inRange);
+  if (!firstInRange) return;
+  const ym = firstInRange.date.slice(0, 7);
+  if (ym !== lastYM) {
+    lastYM = ym;
+    const monthNum = Number(ym.slice(5));
+    const short = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][
+      monthNum - 1
+    ];
+    monthLabels.push({ x: labelW + wi * (cellSize + gap), label: short });
+  }
+});
+
+const dayLabels = [
+  { i: 0, label: "Mon" },
+  { i: 2, label: "Wed" },
+  { i: 4, label: "Fri" },
+];
+
+const totalDays = gymDayCounts.length;
+---
+
+<figure class="gym-heat not-prose my-8">
+  <div class="gym-heat__scroll">
+    <svg
+      class="gym-heat__svg"
+      viewBox={`0 0 ${svgW} ${svgH}`}
+      width={svgW}
+      height={svgH}
+      role="img"
+      aria-label="Calendar heatmap of gym days"
+    >
+      {
+        monthLabels.map((m) => (
+          <text class="gym-heat__axis" x={m.x} y="11">
+            {m.label}
+          </text>
+        ))
+      }
+
+      {
+        dayLabels.map((d) => (
+          <text
+            class="gym-heat__axis"
+            x={labelW - 4}
+            y={topH + d.i * (cellSize + gap) + cellSize - 1}
+            text-anchor="end"
+          >
+            {d.label}
+          </text>
+        ))
+      }
+
+      {
+        weeks.map((week, wi) =>
+          week.map((cell, di) => {
+            if (!cell.inRange) return null;
+            const x = labelW + wi * (cellSize + gap);
+            const y = topH + di * (cellSize + gap);
+            const lvl = level(cell.count);
+            return (
+              <rect
+                class={`gym-heat__cell gym-heat__cell--l${lvl}`}
+                x={x}
+                y={y}
+                width={cellSize}
+                height={cellSize}
+                rx="2"
+              >
+                <title>
+                  {cell.count > 0
+                    ? `${cell.date}: ${cell.count} session${cell.count === 1 ? "" : "s"}`
+                    : `${cell.date}: rest`}
+                </title>
+              </rect>
+            );
+          }),
+        )
+      }
+    </svg>
+  </div>
+
+  <div class="gym-heat__legend">
+    <span>Less</span>
+    <i class="gym-heat__swatch gym-heat__cell--l0" />
+    <i class="gym-heat__swatch gym-heat__cell--l1" />
+    <i class="gym-heat__swatch gym-heat__cell--l2" />
+    <span>More</span>
+  </div>
+
+  <figcaption class="gym-heat__caption">
+    {totalDays} gym days on the calendar · Aug–Oct 2025 is the long gap
+  </figcaption>
+</figure>
+
+<style>
+  .gym-heat {
+    margin-inline: 0;
+  }
+
+  .gym-heat__scroll {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .gym-heat__svg {
+    display: block;
+    max-width: none;
+  }
+
+  .gym-heat__axis {
+    fill: var(--muted-foreground);
+    font-size: 9px;
+  }
+
+  .gym-heat__cell {
+    stroke: transparent;
+  }
+
+  .gym-heat__cell--l0 {
+    fill: var(--muted);
+  }
+
+  .gym-heat__cell--l1 {
+    fill: #5aa7d4;
+  }
+
+  .gym-heat__cell--l2 {
+    fill: #006cac;
+  }
+
+  :global(html[data-theme="dark"]) .gym-heat__cell--l1 {
+    fill: #3d6f9c;
+  }
+
+  :global(html[data-theme="dark"]) .gym-heat__cell--l2 {
+    fill: #5eb8f0;
+  }
+
+  .gym-heat__legend {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+
+  .gym-heat__swatch {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+  }
+
+  .gym-heat__caption {
+    margin-top: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+</style>

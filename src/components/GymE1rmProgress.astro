@@ -1,0 +1,230 @@
+---
+import { e1rmProgress } from "@/data/gymCharts";
+
+type SeriesKey = "squats" | "benchPress" | "deadlifts";
+
+const seriesMeta: { key: SeriesKey; label: string; color: string; colorDark: string }[] = [
+  { key: "deadlifts", label: "Deadlift", color: "#2a9d8f", colorDark: "#3ecfbe" },
+  { key: "squats", label: "Squat", color: "#006cac", colorDark: "#5eb8f0" },
+  { key: "benchPress", label: "Bench", color: "#e76f51", colorDark: "#ff8a5c" },
+];
+
+// Build unified month axis from earliest to latest across series
+const allMonths = [
+  ...new Set(
+    seriesMeta.flatMap((s) => e1rmProgress[s.key].map((p) => p.month)),
+  ),
+].sort();
+
+const width = 640;
+const height = 240;
+const pad = { top: 16, right: 12, bottom: 36, left: 36 };
+const innerW = width - pad.left - pad.right;
+const innerH = height - pad.top - pad.bottom;
+
+const allVals = seriesMeta.flatMap((s) => e1rmProgress[s.key].map((p) => p.e1rm));
+const minY = Math.floor(Math.min(...allVals) / 20) * 20 - 20;
+const maxY = Math.ceil(Math.max(...allVals) / 20) * 20 + 20;
+
+const xAt = (i: number) =>
+  pad.left + (i / Math.max(allMonths.length - 1, 1)) * innerW;
+const yAt = (v: number) =>
+  pad.top + innerH - ((v - minY) / (maxY - minY)) * innerH;
+
+const monthIndex = new Map(allMonths.map((m, i) => [m, i]));
+
+function pathFor(key: SeriesKey) {
+  const pts = e1rmProgress[key]
+    .map((p) => ({ i: monthIndex.get(p.month)!, v: p.e1rm }))
+    .sort((a, b) => a.i - b.i);
+  return pts
+    .map(
+      (p, idx) =>
+        `${idx === 0 ? "M" : "L"}${xAt(p.i).toFixed(1)},${yAt(p.v).toFixed(1)}`,
+    )
+    .join(" ");
+}
+
+const yTicks: number[] = [];
+for (let v = minY; v <= maxY; v += 40) yTicks.push(v);
+
+const xLabels = allMonths
+  .map((m, i) => {
+    const [, mo] = m.split("-");
+    const monthNum = Number(mo);
+    if (monthNum !== 1 && monthNum !== 7 && i !== 0 && i !== allMonths.length - 1) {
+      return null;
+    }
+    const short =
+      ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][
+        monthNum - 1
+      ] +
+      " " +
+      m.slice(2, 4);
+    return { x: xAt(i), label: short };
+  })
+  .filter(Boolean) as { x: number; label: string }[];
+
+const peaks = seriesMeta.map((s) => {
+  const best = e1rmProgress[s.key].reduce((a, b) => (b.e1rm > a.e1rm ? b : a));
+  return { label: s.label, e1rm: best.e1rm, month: best.month };
+});
+---
+
+<figure class="gym-e1rm not-prose my-8">
+  <svg
+    class="gym-e1rm__svg"
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-label="Estimated one-rep max progress for squat, bench, and deadlift"
+  >
+    {
+      yTicks.map((v) => (
+        <g>
+          <line
+            class="gym-e1rm__grid"
+            x1={pad.left}
+            x2={width - pad.right}
+            y1={yAt(v)}
+            y2={yAt(v)}
+          />
+          <text class="gym-e1rm__axis" x={pad.left - 6} y={yAt(v) + 3} text-anchor="end">
+            {v}
+          </text>
+        </g>
+      ))
+    }
+
+    {
+      seriesMeta.map((s) => (
+        <path
+          class={`gym-e1rm__line gym-e1rm__line--${s.key}`}
+          d={pathFor(s.key)}
+          fill="none"
+          style={`--c: ${s.color}; --c-dark: ${s.colorDark}`}
+        />
+      ))
+    }
+
+    {
+      seriesMeta.map((s) =>
+        e1rmProgress[s.key].map((p) => {
+          const i = monthIndex.get(p.month)!;
+          return (
+            <circle
+              class={`gym-e1rm__dot gym-e1rm__dot--${s.key}`}
+              cx={xAt(i)}
+              cy={yAt(p.e1rm)}
+              r="3"
+              style={`--c: ${s.color}; --c-dark: ${s.colorDark}`}
+            >
+              <title>{`${s.label} · ${p.month}: ${p.e1rm} lb e1RM`}</title>
+            </circle>
+          );
+        }),
+      )
+    }
+
+    {
+      xLabels.map((t) => (
+        <text class="gym-e1rm__axis" x={t.x} y={height - 10} text-anchor="middle">
+          {t.label}
+        </text>
+      ))
+    }
+  </svg>
+
+  <div class="gym-e1rm__legend">
+    {
+      seriesMeta.map((s) => (
+        <span>
+          <i
+            class="gym-e1rm__swatch"
+            style={`--c: ${s.color}; --c-dark: ${s.colorDark}`}
+          />
+          {s.label}
+        </span>
+      ))
+    }
+  </div>
+
+  <figcaption class="gym-e1rm__caption">
+    Best estimated 1RM each month (Epley) · peaks{" "}
+    {peaks.map((p) => `${p.label} ${Math.round(p.e1rm)}`).join(" · ")}
+  </figcaption>
+</figure>
+
+<style>
+  .gym-e1rm {
+    margin-inline: 0;
+  }
+
+  .gym-e1rm__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .gym-e1rm__grid {
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+
+  .gym-e1rm__axis {
+    fill: var(--muted-foreground);
+    font-size: 10px;
+  }
+
+  .gym-e1rm__line {
+    stroke: var(--c);
+    stroke-width: 2.25;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .gym-e1rm__dot {
+    fill: var(--c);
+  }
+
+  :global(html[data-theme="dark"]) .gym-e1rm__line,
+  :global(html[data-theme="dark"]) .gym-e1rm__dot {
+    stroke: var(--c-dark);
+    fill: var(--c-dark);
+  }
+
+  :global(html[data-theme="dark"]) .gym-e1rm__line {
+    fill: none;
+  }
+
+  .gym-e1rm__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  .gym-e1rm__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .gym-e1rm__swatch {
+    display: inline-block;
+    width: 0.85rem;
+    height: 3px;
+    background: var(--c);
+  }
+
+  :global(html[data-theme="dark"]) .gym-e1rm__swatch {
+    background: var(--c-dark);
+  }
+
+  .gym-e1rm__caption {
+    margin-top: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+</style>

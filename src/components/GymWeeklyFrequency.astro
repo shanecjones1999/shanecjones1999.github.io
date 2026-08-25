@@ -1,0 +1,186 @@
+---
+import { weeklyFrequency } from "@/data/gymCharts";
+
+const width = 640;
+const height = 220;
+const pad = { top: 16, right: 12, bottom: 36, left: 28 };
+const innerW = width - pad.left - pad.right;
+const innerH = height - pad.top - pad.bottom;
+
+const maxSessions = Math.max(...weeklyFrequency.map((w) => w.sessions), 1);
+const maxY = Math.max(maxSessions, 7);
+
+const xAt = (i: number) =>
+  pad.left + (i / Math.max(weeklyFrequency.length - 1, 1)) * innerW;
+const yAt = (v: number) => pad.top + innerH - (v / maxY) * innerH;
+
+const barW = Math.max(1.5, innerW / weeklyFrequency.length - 1);
+
+const rollingPath = weeklyFrequency
+  .map((w, i) => `${i === 0 ? "M" : "L"}${xAt(i).toFixed(1)},${yAt(w.rolling4).toFixed(1)}`)
+  .join(" ");
+
+// Month ticks: first week of each month
+const monthTicks: { x: number; label: string }[] = [];
+let lastMonth = "";
+weeklyFrequency.forEach((w, i) => {
+  const label = w.weekStart.slice(0, 7); // YYYY-MM
+  if (label !== lastMonth) {
+    lastMonth = label;
+    const [y, m] = label.split("-");
+    const short =
+      ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][
+        Number(m) - 1
+      ] +
+      " " +
+      y.slice(2);
+    // Only label every other month if dense
+    if (monthTicks.length === 0 || Number(m) % 2 === 1) {
+      monthTicks.push({ x: xAt(i), label: short });
+    }
+  }
+});
+
+const avg =
+  weeklyFrequency.reduce((s, w) => s + w.sessions, 0) / weeklyFrequency.length;
+const peak = weeklyFrequency.reduce((a, b) => (b.sessions > a.sessions ? b : a));
+---
+
+<figure class="gym-freq not-prose my-8">
+  <svg
+    class="gym-freq__svg"
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-label="Gym sessions per week with a four-week rolling average"
+  >
+    {/* grid */}
+    {[0, 2, 4, 6].map((v) => (
+      <g>
+        <line
+          class="gym-freq__grid"
+          x1={pad.left}
+          x2={width - pad.right}
+          y1={yAt(v)}
+          y2={yAt(v)}
+        />
+        <text class="gym-freq__axis" x={pad.left - 6} y={yAt(v) + 3} text-anchor="end">
+          {v}
+        </text>
+      </g>
+    ))}
+
+    {/* weekly bars */}
+    {
+      weeklyFrequency.map((w, i) => (
+        <rect
+          class="gym-freq__bar"
+          x={xAt(i) - barW / 2}
+          y={yAt(w.sessions)}
+          width={barW}
+          height={Math.max(0, yAt(0) - yAt(w.sessions))}
+        >
+          <title>{`${w.weekStart}: ${w.sessions} session${w.sessions === 1 ? "" : "s"}`}</title>
+        </rect>
+      ))
+    }
+
+    {/* rolling average */}
+    <path class="gym-freq__line" d={rollingPath} fill="none" />
+
+    {/* x labels */}
+    {
+      monthTicks.map((t) => (
+        <text class="gym-freq__axis" x={t.x} y={height - 10} text-anchor="middle">
+          {t.label}
+        </text>
+      ))
+    }
+  </svg>
+
+  <div class="gym-freq__legend">
+    <span><i class="gym-freq__swatch gym-freq__swatch--bar" /> weekly sessions</span>
+    <span><i class="gym-freq__swatch gym-freq__swatch--line" /> 4-week average</span>
+  </div>
+
+  <figcaption class="gym-freq__caption">
+    Average {avg.toFixed(1)} sessions/week · peak {peak.sessions} in the week of {peak.weekStart}
+  </figcaption>
+</figure>
+
+<style>
+  .gym-freq {
+    margin-inline: 0;
+  }
+
+  .gym-freq__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .gym-freq__grid {
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+
+  .gym-freq__axis {
+    fill: var(--muted-foreground);
+    font-size: 10px;
+  }
+
+  .gym-freq__bar {
+    fill: var(--muted);
+    opacity: 0.85;
+  }
+
+  .gym-freq__line {
+    stroke: #006cac;
+    stroke-width: 2.25;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  :global(html[data-theme="dark"]) .gym-freq__line {
+    stroke: #5eb8f0;
+  }
+
+  .gym-freq__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  .gym-freq__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .gym-freq__swatch {
+    display: inline-block;
+    width: 0.85rem;
+    height: 0.55rem;
+  }
+
+  .gym-freq__swatch--bar {
+    background: var(--muted);
+  }
+
+  .gym-freq__swatch--line {
+    background: #006cac;
+    height: 3px;
+  }
+
+  :global(html[data-theme="dark"]) .gym-freq__swatch--line {
+    background: #5eb8f0;
+  }
+
+  .gym-freq__caption {
+    margin-top: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+</style>

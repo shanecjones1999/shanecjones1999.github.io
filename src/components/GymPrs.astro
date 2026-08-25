@@ -1,0 +1,248 @@
+---
+import { bodyweightPrs, loadedPrs } from "@/data/gymPrs";
+
+const maxLoaded = Math.max(...loadedPrs.map((p) => p.weight));
+const maxAdded = Math.max(...bodyweightPrs.map((p) => p.addedWeight));
+
+function formatDate(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+---
+
+<figure class="gym-prs not-prose my-8">
+  <div class="gym-prs__section">
+    <h3 class="gym-prs__heading">Heaviest sets</h3>
+    <div class="gym-prs__chart" role="img" aria-label="Personal records by heaviest set">
+      {
+        loadedPrs.map((pr, i) => {
+          const widthPct = (pr.weight / maxLoaded) * 100;
+          return (
+            <div class="gym-prs__row" style={`--i: ${i}`}>
+              <div class="gym-prs__meta">
+                <span class="gym-prs__lift">{pr.lift}</span>
+                <span class="gym-prs__date">{formatDate(pr.date)}</span>
+              </div>
+              <div class="gym-prs__track">
+                <div
+                  class="gym-prs__bar gym-prs__bar--loaded"
+                  style={`width: ${widthPct}%`}
+                />
+              </div>
+              <div class="gym-prs__value">
+                <span class="gym-prs__set">
+                  {pr.weight}
+                  <span class="gym-prs__times">×</span>
+                  {pr.reps}
+                </span>
+                <span class="gym-prs__note">
+                  ~{Math.round(pr.e1rm)} lb e1RM
+                  {pr.note ? ` · ${pr.note}` : ""}
+                </span>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div class="gym-prs__section">
+    <h3 class="gym-prs__heading">Max added weight</h3>
+    <div
+      class="gym-prs__chart"
+      role="img"
+      aria-label="Personal records for weighted pull-ups and dips"
+    >
+      {
+        bodyweightPrs.map((pr, i) => {
+          const widthPct = (pr.addedWeight / maxAdded) * 100;
+          return (
+            <div class="gym-prs__row" style={`--i: ${i + loadedPrs.length}`}>
+              <div class="gym-prs__meta">
+                <span class="gym-prs__lift">{pr.lift}</span>
+                <span class="gym-prs__date">{formatDate(pr.date)}</span>
+              </div>
+              <div class="gym-prs__track">
+                <div
+                  class="gym-prs__bar gym-prs__bar--bw"
+                  style={`width: ${widthPct}%`}
+                />
+              </div>
+              <div class="gym-prs__value">
+                <span class="gym-prs__set">
+                  +{pr.addedWeight}
+                  <span class="gym-prs__times">×</span>
+                  {pr.reps}
+                </span>
+                <span class="gym-prs__note">{pr.bwReps} reps bodyweight</span>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <figcaption class="gym-prs__caption">
+    Heaviest logged set per lift · pull-ups and dips by max added load
+  </figcaption>
+</figure>
+
+<style>
+  .gym-prs {
+    --gym-pr-loaded: #006cac;
+    --gym-pr-bw: #2a9d8f;
+    margin-inline: 0;
+  }
+
+  :global(html[data-theme="dark"]) .gym-prs {
+    --gym-pr-loaded: #5eb8f0;
+    --gym-pr-bw: #3ecfbe;
+  }
+
+  .gym-prs__section + .gym-prs__section {
+    margin-top: 1.75rem;
+  }
+
+  .gym-prs__heading {
+    margin: 0 0 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .gym-prs__chart {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .gym-prs__row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr 5.5rem;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .gym-prs__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .gym-prs__lift {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  .gym-prs__date {
+    font-size: 0.7rem;
+    color: var(--muted-foreground);
+  }
+
+  .gym-prs__track {
+    height: 1.5rem;
+    background: var(--muted);
+    overflow: hidden;
+  }
+
+  .gym-prs__bar {
+    height: 100%;
+    min-width: 2px;
+    transform-origin: left center;
+    animation: gym-pr-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 0.07s);
+  }
+
+  .gym-prs__bar--loaded {
+    background: var(--gym-pr-loaded);
+  }
+
+  .gym-prs__bar--bw {
+    background: var(--gym-pr-bw);
+  }
+
+  .gym-prs__value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+    text-align: end;
+  }
+
+  .gym-prs__set {
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--foreground);
+    line-height: 1.2;
+  }
+
+  .gym-prs__times {
+    margin-inline: 0.05rem;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  .gym-prs__note {
+    font-size: 0.7rem;
+    color: var(--muted-foreground);
+    line-height: 1.2;
+  }
+
+  .gym-prs__caption {
+    margin-top: 1.1rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  @keyframes gym-pr-in {
+    from {
+      transform: scaleX(0);
+      opacity: 0.4;
+    }
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .gym-prs__row {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "meta value"
+        "track track";
+      gap: 0.35rem 0.75rem;
+    }
+
+    .gym-prs__meta {
+      grid-area: meta;
+    }
+
+    .gym-prs__value {
+      grid-area: value;
+    }
+
+    .gym-prs__track {
+      grid-area: track;
+      height: 1.15rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gym-prs__bar {
+      animation: none;
+    }
+  }
+</style>

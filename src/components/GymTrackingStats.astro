@@ -1,0 +1,209 @@
+---
+import {
+  gymTrackingStats,
+  splitLabels,
+  splitOrder,
+  type SplitName,
+} from "@/data/gymTrackingStats";
+
+const { totalGymDays, gymDayPercentage, trackingSpanDays, splits } =
+  gymTrackingStats;
+
+const totalSessions = splitOrder.reduce((sum, key) => sum + splits[key], 0);
+const maxSplit = Math.max(...splitOrder.map((key) => splits[key]));
+
+const barColors: Record<SplitName, string> = {
+  legs: "var(--gym-legs)",
+  pull: "var(--gym-pull)",
+  push: "var(--gym-push)",
+  misc: "var(--gym-misc)",
+};
+---
+
+<figure class="gym-stats not-prose my-8">
+  <div class="gym-stats__summary">
+    <div class="gym-stats__stat">
+      <span class="gym-stats__value">{totalGymDays}</span>
+      <span class="gym-stats__label">gym days</span>
+    </div>
+    <div class="gym-stats__stat">
+      <span class="gym-stats__value">{gymDayPercentage}%</span>
+      <span class="gym-stats__label">of {trackingSpanDays} days</span>
+    </div>
+    <div class="gym-stats__stat">
+      <span class="gym-stats__value">{totalSessions}</span>
+      <span class="gym-stats__label">sessions logged</span>
+    </div>
+  </div>
+
+  <div class="gym-stats__chart" role="img" aria-label="Workout split distribution">
+    {
+      splitOrder.map((key) => {
+        const count = splits[key];
+        const widthPct = (count / maxSplit) * 100;
+        const sharePct = ((count / totalSessions) * 100).toFixed(0);
+        return (
+          <div class="gym-stats__row">
+            <span class="gym-stats__split">{splitLabels[key]}</span>
+            <div class="gym-stats__track">
+              <div
+                class="gym-stats__bar"
+                style={`width: ${widthPct}%; background: ${barColors[key]}`}
+              />
+            </div>
+            <span class="gym-stats__count">
+              {count}
+              <span class="gym-stats__share">({sharePct}%)</span>
+            </span>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <figcaption class="gym-stats__caption">
+    Split mix across all Lift Tracking sheets · Jul 2024 – Aug 2026
+  </figcaption>
+</figure>
+
+<style>
+  .gym-stats {
+    --gym-legs: #2a9d8f;
+    --gym-pull: #006cac;
+    --gym-push: #e76f51;
+    --gym-misc: #9b8b6e;
+    margin-inline: 0;
+  }
+
+  :global(html[data-theme="dark"]) .gym-stats {
+    --gym-legs: #3ecfbe;
+    --gym-pull: #5eb8f0;
+    --gym-push: #ff8a5c;
+    --gym-misc: #c4b59a;
+  }
+
+  .gym-stats__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .gym-stats__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .gym-stats__value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--foreground);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gym-stats__label {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  .gym-stats__chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .gym-stats__row {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr 4.5rem;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .gym-stats__split {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .gym-stats__track {
+    height: 1.35rem;
+    background: var(--muted);
+    overflow: hidden;
+  }
+
+  .gym-stats__bar {
+    height: 100%;
+    min-width: 2px;
+    transform-origin: left center;
+    animation: gym-bar-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .gym-stats__row:nth-child(1) .gym-stats__bar {
+    animation-delay: 0.05s;
+  }
+  .gym-stats__row:nth-child(2) .gym-stats__bar {
+    animation-delay: 0.12s;
+  }
+  .gym-stats__row:nth-child(3) .gym-stats__bar {
+    animation-delay: 0.19s;
+  }
+  .gym-stats__row:nth-child(4) .gym-stats__bar {
+    animation-delay: 0.26s;
+  }
+
+  .gym-stats__count {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    color: var(--foreground);
+  }
+
+  .gym-stats__share {
+    margin-inline-start: 0.2rem;
+    font-weight: 400;
+    color: var(--muted-foreground);
+  }
+
+  .gym-stats__caption {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  @keyframes gym-bar-in {
+    from {
+      transform: scaleX(0);
+      opacity: 0.4;
+    }
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gym-stats__summary {
+      grid-template-columns: 1fr;
+    }
+
+    .gym-stats__row {
+      grid-template-columns: 3rem 1fr 3.75rem;
+      gap: 0.5rem;
+    }
+
+    .gym-stats__value {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gym-stats__bar {
+      animation: none;
+    }
+  }
+</style>
