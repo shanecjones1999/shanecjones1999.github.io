@@ -1,0 +1,47 @@
+---
+title: "TradeMind: An Idea"
+description: "A paper-trading app idea, and why market data costs put it on ice."
+pubDatetime: 2026-08-19T13:47:09.910Z
+modDatetime: 2026-08-24T20:03:00.000Z
+slug: trademind-an-idea
+featured: true
+tags:
+  - stocks
+  - finance
+  - side-project
+---
+
+I'm still workshopping the name, but the idea is a social paper-trading app: timed challenges where friends compete on a shared virtual bankroll. Think less "full TradingView clone" and more paper portfolios plus leaderboards.
+
+The MVP would be simple: start everyone with $100,000, allow stock trading only, and skip taxes. Options, futures, shorting, and the rest could come later.
+
+The interesting technical work is real-time prices, order management and execution, and a financial ledger. The hard part turned out to be cost.
+
+## Idea
+
+- Users create groups, challenges, or lobbies (name TBD). This might start as an admin-only feature.
+- Each group has a start and end date. Players begin with the same virtual balance (say $100,000) and trade only inside that window.
+- A leaderboard shows how everyone is doing relative to each other.
+- When the window ends, trading freezes, results are computed, and the top trader is clear.
+- Users can inspect how others traded during the challenge.
+- Prize pools are an interesting later idea, but real-money prizes bring compliance and legal complexity, so they'd stay out of scope for v1.
+
+## Costs
+
+I had an LLM research rough monthly costs. Treat these as estimates I'd still want to verify myself — especially market-data licensing and redistribution rules.
+
+| Cost | Rough monthly cost | Notes |
+|---|---:|---|
+| **Market data (e.g. Massive)** | $199 | Real-time quotes; the main line item |
+| **Cursor** | $20 | R&D |
+| **Apple Developer** | ~$8 | $99/year |
+| **Hosting + database + Redis** | $10–180+ | Backend, Postgres, cache / real-time state |
+| **Ops extras** | $0–130+ | Email, auth, monitoring, storage, analytics |
+| **Domain** | ~$1–2 | ~$12–20/year |
+| **Total** | **~$238–$539+/mo** | Before redistribution / licensing fees beyond the API plan |
+
+Most of that range is optional infrastructure. Real-time market data is the part that makes a hobby build feel expensive.
+
+## Wrap Up
+
+I'd like to revisit this when market data is cheaper, or when a cheaper data strategy is enough — delayed quotes, end-of-day prices, or a free/cheaper API tier for paper trading. Until then, TradeMind stays an idea on ice.
